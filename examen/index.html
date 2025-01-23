@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      .oculto {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Validacion</h1>
+    <form class="" action="categorias.html">
+      <p>
+        <input type="text" name="login" placeholder="login">
+      </p>
+      <p>
+        <input type="password" name="password" placeholder="password">
+      </p>
+      <p>
+        <input type="submit" name="" value="Entrar">
+        <input type="reset" name="" value="Cambiar de usuario" id="reset_user">
+      </p>
+    </form>
+    <div id="panel_password" class="oculto">
+      <input type="text" name="nueva" placeholder="Introduzca la nueva contraseña">
+      <button type="button" name="" id="cambiar_password">Cambiar</button>
+    </div>
+    <script>
+      const form =document.forms[0];
+
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+
+        form.login.value;
+        localStorage.user = form.login.value;
+        sessionStorage.password = form.password.value;
+        form.login.value= "";
+        form.password.value="";
+        form.login.remove();
+        form.password.remove();
+        form.submit();
+      })
+
+      function onload(){
+        form.login.value= localStorage.user || "";
+        form.password.value= sessionStorage.password || "";
+        if (localStorage.user && sessionStorage.password) {
+          document.getElementById('panel_password').classList.remove('oculto')
+          
+        }
+      }
+      document.getElementById('reset_user').addEventListener('click', (e)=>{
+        localStorage.removeItem('user');
+        sessionStorage.removeItem('password');
+        form.login.value="";
+        form.password.value="";
+        document.getElementById('panel_password').classList.add('oculto')
+      })
+
+      document.getElementById('cambiar_password').addEventListener('click', (e)=>{
+        const user = form.login.value;
+        const newPassword = document.querySelector('[name= "nueva"]')
+        newPassword = document.createAttribute("id")
+        newPassword.id ="nueva contraseña"
+        const data = {
+          "old": form.password.value,
+          "new": "123"
+        }
+        const options ={
+          method: 'PUT',
+          header:{
+            'Content-Type':'application-json'
+          },
+          body : JSON.stringify(data);
+        }
+        fetch('http://localhost:3000/api/usuario/'+user,options)
+        .then(res =>{
+          if (res.status){
+            c
+          }
+        })
+      })
+      onload()
+    </script>
+  </body>
+</html>
